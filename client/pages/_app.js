@@ -1,8 +1,6 @@
-import Head from "next/head";
-import 'bootstrap/dist/css/bootstrap.css';
-
-export default ({ Component, pageProps }) => {
-  return <>
-    <Component {...pageProps} />
-  </>
+import 'bootstrap/dist/css/bootstrap.css'
+const AppComponent = ({ Component, pageProps }) => {
+  return <Component {...pageProps} />;
 };
+
+export default AppComponent
