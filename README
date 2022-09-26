@@ -1,0 +1,8 @@
+1. add jwt-key
+    1.1 kubectl create secret generic jwt-secret --from-literal=JWT_KEY=asdf   
+2. add ingress-nginx
+    2.1 sudo kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.1/deploy/static/provider/cloud/deploy.yaml
+    2.2 code /etc/hosts
+        2.2.1 127.0.0.1 ticketing.dev
+3. install skaffold
+4. run 'skaffold dev'
