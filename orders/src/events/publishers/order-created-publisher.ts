@@ -4,6 +4,6 @@ import {
   Subjects,
 } from "@danocto-tickets/common-tickets";
 
-export class OrderCreatedPublished extends Publisher<OrderCreatedEvent> {
+export class OrderCreatedPublisher extends Publisher<OrderCreatedEvent> {
   subject: Subjects.OrderCreated = Subjects.OrderCreated;
 }
