@@ -24,7 +24,7 @@ const setup = async () => {
     version: ticket.version + 1,
     title: "new concert",
     price: 999,
-    userdId: "aaa",
+    userId: "aaa",
   };
 
   // Create a fake msg object
