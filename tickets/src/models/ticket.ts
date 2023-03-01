@@ -1,26 +1,24 @@
 import mongoose from "mongoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
-import { Order, OrderStatus } from "./order";
 
 interface TicketAttrs {
-  id: string;
   title: string;
   price: number;
+  userId: string;
 }
-export interface TicketDoc extends mongoose.Document {
+//needed for document(only one element=>> model is a array or elements)
+interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
+  userId: string;
   version: number;
-  isReserved(): Promise<boolean>;
+  orderId?: string;
 }
-
+//needed for ts validation of props
 interface TicketModel extends mongoose.Model<TicketDoc> {
   build(attrs: TicketAttrs): TicketDoc;
-  findByEvent(event: {
-    id: string;
-    version: number;
-  }): Promise<TicketDoc | null>;
 }
+
 const ticketSchema = new mongoose.Schema(
   {
     title: {
@@ -30,10 +28,17 @@ const ticketSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: true,
-      min: 0,
+    },
+    userId: {
+      type: String,
+      required: true,
+    },
+    orderId: {
+      type: String,
     },
   },
   {
+    //need for tranfrom data
     toJSON: {
       transform(doc, ret) {
         ret.id = ret._id;
@@ -47,31 +52,9 @@ ticketSchema.set("versionKey", "version");
 ticketSchema.plugin(updateIfCurrentPlugin);
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
-  return new Ticket({
-    _id: attrs.id,
-    title: attrs.title,
-    price: attrs.price,
-  });
+  return new Ticket(attrs);
 };
-ticketSchema.statics.findByEvent = (event: { id: string; version: number }) => {
-  return Ticket.findOne({
-    _id: event?.id,
-    version: event?.version - 1,
-  });
-};
-ticketSchema.methods.isReserved = async function () {
-  const existingOrder = await Order.findOne({
-    ticket: this,
-    status: {
-      $in: [
-        OrderStatus.Created,
-        OrderStatus.Complete,
-        OrderStatus.AwaitingPayment,
-      ],
-    },
-  });
-  return !!existingOrder;
-};
+
 const Ticket = mongoose.model<TicketDoc, TicketModel>("Ticket", ticketSchema);
 
 export { Ticket };

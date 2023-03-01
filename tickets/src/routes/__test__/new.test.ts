@@ -1,5 +1,5 @@
 import request from "supertest";
-import { Ticket } from "../../../models/ticket";
+import { Ticket } from "../../models/ticket";
 import { app } from "../../app";
 import { natsWrapper } from "../../nats-wrapper";
 
@@ -88,6 +88,6 @@ it("publishes an event", async () => {
     })
     .expect(201);
   expect(natsWrapper.client.publish).toHaveBeenCalled();
-  
+
   console.log(natsWrapper);
 });
