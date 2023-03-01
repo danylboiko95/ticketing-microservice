@@ -29,7 +29,7 @@ it("marks an order as cancelled", async () => {
 
   const updatedOrder = await Order.findById(order.id);
 
-  expect(updatedOrder!.status).toEqual(OrderStatus.Canceled);
+  expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
 });
 
 it("emits a order cancelled event", async () => {
@@ -56,7 +56,7 @@ it("emits a order cancelled event", async () => {
 
   const updatedOrder = await Order.findById(order.id);
 
-  expect(updatedOrder!.status).toEqual(OrderStatus.Canceled);
+  expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
 
   expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
