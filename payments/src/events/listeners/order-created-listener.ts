@@ -1,11 +1,11 @@
+import { Message } from "node-nats-streaming";
+import { queueGroupName } from "./queue-group-name";
+import { Order } from "../../models/order";
 import {
   Listener,
   OrderCreatedEvent,
   Subjects,
 } from "@danocto-tickets/common-tickets";
-import { Message } from "node-nats-streaming";
-import { Order } from "../../models/order";
-import { queueGroupName } from "./queue-group-name";
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
   subject: Subjects.OrderCreated = Subjects.OrderCreated;

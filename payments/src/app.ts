@@ -2,11 +2,8 @@ import express from "express";
 import "express-async-errors";
 import { json } from "body-parser";
 import cookieSession from "cookie-session";
-import {
-  currentUser,
-  errorHandler,
-  NotFoundError,
-} from "@danocto-tickets/common-tickets";
+import { createChargeRouter } from "./routes/new";
+import { currentUser, errorHandler, NotFoundError } from "@danocto-tickets/common-tickets";
 
 const app = express();
 app.set("trust proxy", true);
@@ -19,9 +16,12 @@ app.use(
 );
 app.use(currentUser);
 
-app.all("*", (req, res, next) => {
+app.use(createChargeRouter);
+
+app.all("*", async (req, res) => {
   throw new NotFoundError();
 });
+
 app.use(errorHandler);
 
 export { app };
